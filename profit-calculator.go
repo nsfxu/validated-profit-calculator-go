@@ -37,7 +37,7 @@ func getUserInput(infoText string) float64 {
 	fmt.Scan(&userInput)
 
 	if userInput <= 0 {
-		panic("Invalid amount. Must be greater than 0.")
+		panic("Value must be greater than 0.")
 	}
 
 	return userInput
