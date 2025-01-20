@@ -1,6 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
+
+const resultFileName = "result.txt"
+
+func writeToFile(result string) {
+	resultText := fmt.Sprint(result)
+	os.WriteFile(resultFileName, []byte(resultText), 0644)
+}
 
 func main() {
 	revenue := getUserInput("Revenue: ")
@@ -9,9 +19,9 @@ func main() {
 
 	ebt, profit, ratio := calculateFinancials(revenue, expenses, taxRate)
 
-	fmt.Printf("%.1f\n", ebt)
-	fmt.Printf("%.1f\n", profit)
-	fmt.Printf("%.3f\n", ratio)
+	resultText := fmt.Sprint("EBT: ", ebt, "\nProfit: ", profit, "\nRatio: ", ratio)
+	writeToFile(resultText)
+
 }
 
 func calculateFinancials(revenue, expenses, taxRate float64) (float64, float64, float64) {
@@ -25,5 +35,10 @@ func getUserInput(infoText string) float64 {
 	var userInput float64
 	fmt.Print(infoText)
 	fmt.Scan(&userInput)
+
+	if userInput <= 0 {
+		panic("Invalid amount. Must be greater than 0.")
+	}
+
 	return userInput
 }
